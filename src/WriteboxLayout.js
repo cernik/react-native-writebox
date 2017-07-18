@@ -1,14 +1,14 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
-import { 
-  View, 
-  Text, 
-  KeyboardAvoidingView, 
-  Platform, 
-  ScrollView 
+import React, { Component } from 'react';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 
-import styles from './styles'
+import styles from './styles';
 
 import WriteBoxContainer from './WriteboxContainer';
 
@@ -16,7 +16,7 @@ export default class WriteBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      behavior: 'padding'
+      behavior: 'padding',
     };
   }
   /*
@@ -35,8 +35,8 @@ export default class WriteBox extends Component {
         duration: duration,
         update: {
           duration: duration,
-          type: LayoutAnimation.Types[easing] || 'keyboard'
-        }
+          type: LayoutAnimation.Types[easing] || 'keyboard',
+        },
       });
     }
     this.setState({ bottom: height });
@@ -53,22 +53,20 @@ export default class WriteBox extends Component {
   render() {
     return (
       <KeyboardAvoidingView
-        behavior={ this.state.behavior }
-        style={ styles.contentLayout }
+        behavior={this.state.behavior}
+        keyboardVerticalOffset={64}
+        style={styles.contentLayout}
         {...Platform.select({
           ios: {},
           android: {
             onKeyboardChange: this.onKeyboardChange,
-            onLayout: this.onLayout
-          }
-        })}
-      >
-        <ScrollView
-          keyboardDismissMode={ 'interactive' }
-        >
-          { this.props.children }
+            onLayout: this.onLayout,
+          },
+        })}>
+        <ScrollView keyboardDismissMode={'interactive'}>
+          {this.props.children}
         </ScrollView>
-        <WriteBoxContainer { ...this.props } />
+        <WriteBoxContainer {...this.props} />
       </KeyboardAvoidingView>
     );
   }
