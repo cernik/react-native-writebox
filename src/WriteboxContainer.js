@@ -1,51 +1,37 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
-import {
-  View,
-  Text,
-  Keyboard
-} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, Keyboard } from 'react-native';
 
-import WriteBoxInput from './WriteboxInput'
+import WriteBoxInput from './WriteboxInput';
 
 /* Setup */
-import styles from './styles'
+import styles from './styles';
 
-const MAGICAL_NUMBER = 30
-const INPUT_HEIGHT = 32
+const MAGICAL_NUMBER = 30;
+const INPUT_HEIGHT = 32;
 
 export default class WriteBoxContainer extends Component {
-
-  static propTypes = {
-    leftComponent: PropTypes.func,
-    onSubmit: PropTypes.func,
-    submitLabel: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    clearOnSubmit: PropTypes.bool,
-    value: PropTypes.string,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func
-  }
-
   static defaultProps = {
-    leftComponent: () =>  <View />,
-    onSubmit: () => { console.warn('WriteBox onSubmit is not implemented') },
+    leftComponent: () => <View />,
+    onSubmit: () => {
+      console.warn('WriteBox onSubmit is not implemented');
+    },
     submitLabel: 'Post',
     autoFocus: false,
     clearOnSubmit: false,
     value: undefined,
     onFocus: () => {},
-    onBlur: () => {}
-  }
+    onBlur: () => {},
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       inputHeight: INPUT_HEIGHT,
       value: props.value,
       buttonText: props.submitLabel,
-      autoFocus: props.autoFocus
-    }
+      autoFocus: props.autoFocus,
+    };
   }
 
   /**
@@ -58,7 +44,7 @@ export default class WriteBoxContainer extends Component {
    * @return {undefined}
    */
   _onChange({ value }) {
-    this.setState({ value })
+    this.setState({ value });
   }
   /**
    * Set active color when there is user input
@@ -68,7 +54,7 @@ export default class WriteBoxContainer extends Component {
   _makeButtonActive() {
     let style = styles.inactiveBtn;
     if (this.state.value && this.state.value.length > 1) {
-        style = styles.activeBtn;
+      style = styles.activeBtn;
     }
     return style;
   }
@@ -81,15 +67,15 @@ export default class WriteBoxContainer extends Component {
   _postAction() {
     // don't submit empty data
     if (!this.state.value || this.state.value.length < 2) {
-      return
+      return;
     }
 
-    this.props.onSubmit({ value: this.state.value })
+    this.props.onSubmit({ value: this.state.value });
 
     Keyboard.dismiss();
 
     if (this.props.clearOnSubmit) {
-      this.setState({ value: undefined })
+      this.setState({ value: undefined });
     }
   }
 
@@ -99,46 +85,46 @@ export default class WriteBoxContainer extends Component {
      */
     this.setState({ autoFocus: false });
 
-    return this.props.onBlur(event)
+    return this.props.onBlur(event);
   }
 
   render() {
-
     const totalHeight = this.state.inputHeight + MAGICAL_NUMBER;
 
     return (
-      <View style={[ styles.writeBoxContainer, { height: totalHeight }]}>
-        { /* Write box with submit button and more */}
-        <View style={ styles.writeContainer }>
-          { /* Left button holder */}
-          <View style={styles.leftBtn }>
-            { this.props.leftComponent() }
+      <View style={[styles.writeBoxContainer, { height: totalHeight }]}>
+        {/* Write box with submit button and more */}
+        <View style={styles.writeContainer}>
+          {/* Left button holder */}
+          <View style={styles.leftBtn}>
+            {this.props.leftComponent()}
           </View>
-          { /* Input field */}
-          <View style={ styles.inputContent }>
+          {/* Input field */}
+          <View style={styles.inputContent}>
             <WriteBoxInput
-              placeholder={ this.props.placeholder }
-              inputLimit={ this.props.inputLimit }
-              autoFocus={ this.state.autoFocus }
-              onFocus={ this.props.onFocus }
-              onBlur= {this._onBlur.bind(this) }
-              value={ this.state.value }
+              placeholder={this.props.placeholder}
+              inputLimit={this.props.inputLimit}
+              autoFocus={this.state.autoFocus}
+              onFocus={this.props.onFocus}
+              onBlur={this._onBlur.bind(this)}
+              value={this.state.value}
               onHeightChanged={({ height }) => {
-                this.setState({ inputHeight: height })
+                this.setState({ inputHeight: height });
               }}
-              onChange={(event) => {
-                this._onChange(event)
+              onChange={event => {
+                this._onChange(event);
               }}
-              />
+            />
           </View>
-          { /* Submit action */}
-          <View style={ styles.rightBtn }>
+          {/* Submit action */}
+          <View style={styles.rightBtn}>
             <Text
-              accessible={ true }
-              accessibilityLabel={ this.props.submitLabel }
-              style={[ styles.submitButton, this._makeButtonActive() ]}
-              onPress={ this._postAction.bind(this) }
-              >{ this.state.buttonText }</Text>
+              accessible={true}
+              accessibilityLabel={this.props.submitLabel}
+              style={[styles.submitButton, this._makeButtonActive()]}
+              onPress={this._postAction.bind(this)}>
+              {this.state.buttonText}
+            </Text>
           </View>
         </View>
       </View>
