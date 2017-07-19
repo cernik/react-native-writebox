@@ -70,7 +70,12 @@ export default class WriteBoxInput extends Component {
       }
       const remainderColor = remainder > 5 ? GRAY_FONT_COLOR : 'red';
       inputCounter = (
-        <Text style={[styles.remainder, { color: remainderColor }]}>
+        <Text
+          style={[
+            styles.remainder,
+            { color: remainderColor },
+            this.props.inputCounterStyle,
+          ]}>
           {remainder}
         </Text>
       );
@@ -96,7 +101,12 @@ export default class WriteBoxInput extends Component {
           onChange={this._onChange.bind(this)}
           underlineColorAndroid="transparent"
           enablesReturnKeyAutomatically={true}
-          style={[styles.input, { height: this.state.height + 4 }, addFlexSize]}
+          style={[
+            styles.input,
+            { height: this.state.height + 4 },
+            addFlexSize,
+            this.props.inputStyle,
+          ]}
           value={this.state.content}
         />
         {inputCounter}

@@ -92,7 +92,12 @@ export default class WriteBoxContainer extends Component {
     const totalHeight = this.state.inputHeight + MAGICAL_NUMBER;
 
     return (
-      <View style={[styles.writeBoxContainer, { height: totalHeight }]}>
+      <View
+        style={[
+          styles.writeBoxContainer,
+          { height: totalHeight },
+          this.props.writeBoxContainerStyle,
+        ]}>
         {/* Write box with submit button and more */}
         <View style={styles.writeContainer}>
           {/* Left button holder */}
@@ -114,6 +119,8 @@ export default class WriteBoxContainer extends Component {
               onChange={event => {
                 this._onChange(event);
               }}
+              inputCounterStyle={this.props.inputCounterStyle}
+              inputStyle={this.props.inputStyle}
             />
           </View>
           {/* Submit action */}
