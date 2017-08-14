@@ -13,6 +13,9 @@ import styles from './styles';
 import WriteBoxContainer from './WriteboxContainer';
 
 export default class WriteBox extends Component {
+  static defaultProps = {
+    keyboardVerticalOffset: 0,
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -54,7 +57,7 @@ export default class WriteBox extends Component {
     return (
       <KeyboardAvoidingView
         behavior={this.state.behavior}
-        keyboardVerticalOffset={64}
+        keyboardVerticalOffset={this.props.keyboardVerticalOffset}
         style={styles.contentLayout}
         {...Platform.select({
           ios: {},
