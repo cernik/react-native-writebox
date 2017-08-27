@@ -15,6 +15,7 @@ import WriteBoxContainer from './WriteboxContainer';
 export default class WriteBox extends Component {
   static defaultProps = {
     keyboardVerticalOffset: 0,
+    scrollViewStyle: {},
   };
   constructor(props) {
     super(props);
@@ -66,7 +67,9 @@ export default class WriteBox extends Component {
             onLayout: this.onLayout,
           },
         })}>
-        <ScrollView keyboardDismissMode={'interactive'}>
+        <ScrollView
+          keyboardDismissMode={'interactive'}
+          style={this.props.scrollViewStyle}>
           {this.props.children}
         </ScrollView>
         <WriteBoxContainer {...this.props} />
