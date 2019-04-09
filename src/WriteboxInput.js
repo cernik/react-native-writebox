@@ -1,10 +1,10 @@
 /* @flow */
-import React, { Component } from 'react';
-import { View, Text, TextInput, Platform } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, TextInput, Platform } from "react-native";
 
-import { LIGHT_GRAY_FONT_COLOR, GRAY_FONT_COLOR } from './constants';
+import { LIGHT_GRAY_FONT_COLOR, GRAY_FONT_COLOR } from "./constants";
 
-import styles from './styles';
+import styles from "./styles";
 
 const INPUT_MAX_HEIGHT = 60;
 
@@ -15,15 +15,15 @@ export default class WriteBoxInput extends Component {
     onFocus: () => {},
     onBlur: () => {},
     autoFocus: false,
-    value: '',
-    placeholder: 'Type here ...',
-    inputLimit: undefined,
+    value: "",
+    placeholder: "Type here ...",
+    inputLimit: undefined
   };
   constructor(props) {
     super(props);
     this.state = {
-      content: props.value || '',
-      height: 0,
+      content: props.value || "",
+      height: 0
     };
     this._onContentSizeChange = this._onContentSizeChange.bind(this);
     this._onChange = this._onChange.bind(this);
@@ -37,18 +37,19 @@ export default class WriteBoxInput extends Component {
   _maxInputHeight(input) {
     return input >= INPUT_MAX_HEIGHT ? INPUT_MAX_HEIGHT : input;
   }
-  _onContentSizeChange(event) {
-    let update = {
-      height: this._maxInputHeight(event.nativeEvent.contentSize.height),
+  _onContentSizeChange(event = {}) {
+    const height = ((event.nativeEvent || {}).contentSize || {})height || this.state.height;
+    const update = {
+      height: this._maxInputHeight(height)
     };
     this.setState(update);
     this.props.onHeightChanged(update);
   }
   _onChange(event) {
     this.setState({
-      content: event.nativeEvent.text,
+      content: event.nativeEvent.text
     });
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       this._onContentSizeChange(event);
     }
     if (this.props.onChange) {
@@ -62,20 +63,21 @@ export default class WriteBoxInput extends Component {
      * Add counter
      */
     if (this.props.inputLimit) {
-      addFlex = { flexDirection: 'row', alignItems: 'flex-end' };
+      addFlex = { flexDirection: "row", alignItems: "flex-end" };
       addFlexSize = { flex: 0.9 };
       let remainder = this.props.inputLimit - this.state.content.length;
       if (remainder < -99) {
         remainder = -99;
       }
-      const remainderColor = remainder > 5 ? GRAY_FONT_COLOR : 'red';
+      const remainderColor = remainder > 5 ? GRAY_FONT_COLOR : "red";
       inputCounter = (
         <Text
           style={[
             styles.remainder,
             { color: remainderColor },
-            this.props.inputCounterStyle,
-          ]}>
+            this.props.inputCounterStyle
+          ]}
+        >
           {remainder}
         </Text>
       );
@@ -97,7 +99,7 @@ export default class WriteBoxInput extends Component {
           }}
           onContentSizeChange={this._onContentSizeChange}
           disableFullscreenUI={true}
-          textBreakStrategy={'highQuality'}
+          textBreakStrategy={"highQuality"}
           onChange={this._onChange.bind(this)}
           underlineColorAndroid="transparent"
           enablesReturnKeyAutomatically={true}
@@ -105,7 +107,7 @@ export default class WriteBoxInput extends Component {
             styles.input,
             { height: this.state.height + 4 },
             addFlexSize,
-            this.props.inputStyle,
+            this.props.inputStyle
           ]}
           value={this.state.content}
         />
