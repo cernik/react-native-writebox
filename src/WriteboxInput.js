@@ -38,7 +38,7 @@ export default class WriteBoxInput extends Component {
     return input >= INPUT_MAX_HEIGHT ? INPUT_MAX_HEIGHT : input;
   }
   _onContentSizeChange(event = {}) {
-    const height = ((event.nativeEvent || {}).contentSize || {})height || this.state.height;
+    const height = ((event.nativeEvent || {}).contentSize || {}).height || this.state.height;
     const update = {
       height: this._maxInputHeight(height)
     };
